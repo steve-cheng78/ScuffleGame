@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/AblockR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Blk"
+        tools:layout_editor_absoluteX="257dp"
+        tools:layout_editor_absoluteY="640dp" />
+
+    <Button
+        android:id="@+id/AblockL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Blk"
+        tools:layout_editor_absoluteX="56dp"
+        tools:layout_editor_absoluteY="640dp" />
+
+    <Button
+        android:id="@+id/AattackL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Atk"
+        tools:layout_editor_absoluteX="56dp"
+        tools:layout_editor_absoluteY="584dp" />
+
+    <Button
+        android:id="@+id/AattackR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Atk"
+        tools:layout_editor_absoluteX="257dp"
+        tools:layout_editor_absoluteY="584dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>

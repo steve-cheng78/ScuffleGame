@@ -7,6 +7,38 @@
     tools:context=".MainActivity">
 
     <Button
+        android:id="@+id/BblockL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Blk"
+        tools:layout_editor_absoluteX="56dp"
+        tools:layout_editor_absoluteY="42dp" />
+
+    <Button
+        android:id="@+id/BblockR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Blk"
+        tools:layout_editor_absoluteX="257dp"
+        tools:layout_editor_absoluteY="42dp" />
+
+    <Button
+        android:id="@+id/BattackR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Atk"
+        tools:layout_editor_absoluteX="257dp"
+        tools:layout_editor_absoluteY="98dp" />
+
+    <Button
+        android:id="@+id/BattackL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Atk"
+        tools:layout_editor_absoluteX="56dp"
+        tools:layout_editor_absoluteY="98dp" />
+
+    <Button
         android:id="@+id/AblockR"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

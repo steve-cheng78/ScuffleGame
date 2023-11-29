@@ -4,69 +4,89 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/main_background"
+    android:padding="16dp"
+    tools:ignore="ExtraText">
     tools:context=".MainActivity">
 
     <Button
         android:id="@+id/BblockL"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Blk"
+        android:backgroundTint="#987554"
+        android:text="Block"
         tools:layout_editor_absoluteX="56dp"
-        tools:layout_editor_absoluteY="42dp" />
+        tools:layout_editor_absoluteY="42dp"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/BblockR"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Blk"
+        android:backgroundTint="#987554"
+        android:text="Block"
         tools:layout_editor_absoluteX="257dp"
-        tools:layout_editor_absoluteY="42dp" />
+        tools:layout_editor_absoluteY="42dp"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/BattackR"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Atk"
+        android:backgroundTint="#664229"
+        android:text="Attack"
         tools:layout_editor_absoluteX="257dp"
-        tools:layout_editor_absoluteY="98dp" />
+        tools:layout_editor_absoluteY="98dp"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/BattackL"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Atk"
+        android:backgroundTint="#664229"
+        android:text="Attack"
         tools:layout_editor_absoluteX="56dp"
-        tools:layout_editor_absoluteY="98dp" />
+        tools:layout_editor_absoluteY="98dp"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/AblockR"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Blk"
+        android:backgroundTint="#987554"
+        android:text="Block"
         tools:layout_editor_absoluteX="257dp"
-        tools:layout_editor_absoluteY="640dp" />
+        tools:layout_editor_absoluteY="640dp"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/AblockL"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Blk"
+        android:backgroundTint="#987554"
+        android:text="Block"
         tools:layout_editor_absoluteX="56dp"
-        tools:layout_editor_absoluteY="640dp" />
+        tools:layout_editor_absoluteY="640dp"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/AattackL"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Atk"
+        android:backgroundTint="#664229"
+        android:text="Attack"
         tools:layout_editor_absoluteX="56dp"
-        tools:layout_editor_absoluteY="584dp" />
+        tools:layout_editor_absoluteY="584dp"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/AattackR"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Atk"
+        android:backgroundTint="#664229"
+        android:text="Attack"
         tools:layout_editor_absoluteX="257dp"
-        tools:layout_editor_absoluteY="584dp" />
+        tools:layout_editor_absoluteY="584dp"
+        tools:ignore="MissingConstraints" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

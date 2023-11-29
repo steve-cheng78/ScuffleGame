@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.app.Activity;
 import android.widget.Toast;
 import java.lang.System;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class MainActivity extends Activity implements OnClickListener {
@@ -23,6 +25,11 @@ public class MainActivity extends Activity implements OnClickListener {
     private Button BattackL;
     private Button BblockR;
     private Button BblockL;
+
+    private boolean aHit;
+    private boolean bHit;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,43 +60,57 @@ public class MainActivity extends Activity implements OnClickListener {
         BblockL.setOnClickListener(this);
     }
 
+
+    //Timers for either side that activate once an attack button on corresponding side is pressed.
+    //After some time, the timer will activate the scheduled TimerTask, which indicates that damage
+    // has been dealt. Thus, Timers must be canceled in block function.
+    // A "flaw" that I want to keep and turn into a feature is that players can spam their own
+    // attack button to do a "feint". This resets the attack timer and the opponent needs to adjust
+    // to that.
+     Timer timerR = null;
+     Timer timerL = null;
+
+     //Player health
+     int healthA = 1;
+     int healthB = 1;
+
+    //"Active attack" indicators: indicates when a character+side is in the process of attacking.
+     boolean AR = false;
+     boolean AL = false;
+     boolean BR = false;
+     boolean BL = false;
+
     @Override
     /*onClick is what is called when the buttons are pressed and they take in Views as arguments
      * as buttons are children of the view class, buttons can polymorphically be passed in. The button
      * that called the onClick is automatically fed in*/
     public void onClick(View v)
     {
-        //Measures elapsed time, begins once an attack function is activated.
-        //The value 0 respresents the timer being off. Once activated, the timer will have a
-        //beginning reference value.
-        //Timers must be reset to 0 in block function. If not, players can override their opponent's
-        //attack with their own. However, a "flaw" that I want to keep and turn into a feature is
-        //that players can spam their own attack button to do a "feint". This resets the attack
-        //timer and the opponent needs to adjust to that.
-        long timerR = 0;
-        long timerL = 0;
 
-        //Only attack or block button can be pushed at one time for either player, either side.
-        if (v.getId() == R.id.AattackR && timerR == 0) {
-            timerR = attack('a','r');
+        //By using if and else if, only attack or block button can be pushed at one time for either
+        //player, either side.
+        //When BR is false, a player can begin an attack because an opposing attack on that side has
+        // not yet been initiated.
+        if (v.getId() == R.id.AattackR && BR == false) {
+            attack('a','r');
         } else if (v.getId() == R.id.AblockR){
             block('a','r');
         }
 
-        if (v.getId() == R.id.AattackL && timerL == 0) {
-            timerL = attack('a','l');
+        if (v.getId() == R.id.AattackL && BL == false) {
+            attack('a','l');
         } else if (v.getId() == R.id.AblockL){
             block('a','l');
         }
 
-        if (v.getId() == R.id.BattackR && timerR == 0) {
-            timerR = attack('b','r');
+        if (v.getId() == R.id.BattackR && AR == false) {
+            attack('b','r');
         } else if (v.getId() == R.id.BblockR){
             block('b','r');
         }
 
-        if (v.getId() == R.id.BattackL && timerL == 0) {
-            timerL = attack('b','l');
+        if (v.getId() == R.id.BattackL && AL == false) {
+            attack('b','l');
         } else if (v.getId() == R.id.BblockR){
             block('b','l');
         }
@@ -98,14 +119,58 @@ public class MainActivity extends Activity implements OnClickListener {
 
     }
 
-
-    private long attack(char player, char side)
+    private void attack(char player, char side)
     {
         //activate attack indication animation
 
         //start timer
-        long timerBegin = System.nanoTime();
-        return timerBegin;
+        timerR = new Timer();
+
+
+        //Activate the correct "active attack" indicator
+        if (side == 'r') {
+            if (player == 'a') {
+                AR = true;
+            } else {
+                BR = true;
+            }
+            TimerTask damage = new Damage();
+            timerR.schedule(damage, 400);
+
+            Timer timerPunchR = new Timer();
+            TimerTask punchR = new punchAnimation();
+            timerPunchR.schedule(punchR, 400);
+
+        } else {
+            if (player == 'a') {
+                AL = true;
+            } else {
+                BL = true;
+            }
+            TimerTask damage = new Damage();
+            timerL.schedule(damage, 400);
+
+            Timer timerPunchL = new Timer();
+            TimerTask punchL = new punchAnimation();
+            timerPunchL.schedule(punchL, 400);
+        }
     }
+
+    class Damage extends TimerTask
+    {
+        public void run()
+        {
+            healthA--;
+        }
+    }
+
+    class punchAnimation extends TimerTask
+    {
+        public void run()
+        {
+            //punch animation code
+        }
+    }
+
 
 }

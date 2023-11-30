@@ -94,25 +94,25 @@ public class MainActivity extends Activity implements OnClickListener {
         if (v.getId() == R.id.AattackR && BR == false) {
             attack('a','r');
         } else if (v.getId() == R.id.AblockR){
-            block('a','r');
+           // block('a','r');
         }
 
         if (v.getId() == R.id.AattackL && BL == false) {
             attack('a','l');
         } else if (v.getId() == R.id.AblockL){
-            block('a','l');
+           // block('a','l');
         }
 
         if (v.getId() == R.id.BattackR && AR == false) {
             attack('b','r');
         } else if (v.getId() == R.id.BblockR){
-            block('b','r');
+           // block('b','r');
         }
 
         if (v.getId() == R.id.BattackL && AL == false) {
             attack('b','l');
         } else if (v.getId() == R.id.BblockR){
-            block('b','l');
+           // block('b','l');
         }
 
 

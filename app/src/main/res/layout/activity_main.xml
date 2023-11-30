@@ -6,87 +6,139 @@
     android:layout_height="match_parent"
     android:background="@drawable/main_background"
     android:padding="16dp"
-    tools:ignore="ExtraText">
+    tools:ignore="ExtraText"><![CDATA[
     tools:context=".MainActivity">
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ]]>
 
     <Button
         android:id="@+id/BblockL"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="112dp"
+        android:layout_height="60dp"
         android:backgroundTint="#987554"
         android:text="Block"
-        tools:layout_editor_absoluteX="56dp"
-        tools:layout_editor_absoluteY="42dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.167"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.056"
         tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/BblockR"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="112dp"
+        android:layout_height="60dp"
         android:backgroundTint="#987554"
         android:text="Block"
-        tools:layout_editor_absoluteX="257dp"
-        tools:layout_editor_absoluteY="42dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.879"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.052"
         tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/BattackR"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="112dp"
+        android:layout_height="60dp"
         android:backgroundTint="#664229"
         android:text="Attack"
-        tools:layout_editor_absoluteX="257dp"
-        tools:layout_editor_absoluteY="98dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.884"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.155"
         tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/BattackL"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="112dp"
+        android:layout_height="60dp"
         android:backgroundTint="#664229"
         android:text="Attack"
-        tools:layout_editor_absoluteX="56dp"
-        tools:layout_editor_absoluteY="98dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.17"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.156"
         tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/AblockR"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="112dp"
+        android:layout_height="60dp"
         android:backgroundTint="#987554"
         android:text="Block"
-        tools:layout_editor_absoluteX="257dp"
-        tools:layout_editor_absoluteY="640dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.892"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.976"
         tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/AblockL"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="112dp"
+        android:layout_height="60dp"
         android:backgroundTint="#987554"
         android:text="Block"
-        tools:layout_editor_absoluteX="56dp"
-        tools:layout_editor_absoluteY="640dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.173"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.976"
         tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/AattackL"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="112dp"
+        android:layout_height="60dp"
         android:backgroundTint="#664229"
         android:text="Attack"
-        tools:layout_editor_absoluteX="56dp"
-        tools:layout_editor_absoluteY="584dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.173"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.871"
         tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/AattackR"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="112dp"
+        android:layout_height="60dp"
         android:backgroundTint="#664229"
         android:text="Attack"
-        tools:layout_editor_absoluteX="257dp"
-        tools:layout_editor_absoluteY="584dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.889"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.876"
         tools:ignore="MissingConstraints" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="BattackL" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

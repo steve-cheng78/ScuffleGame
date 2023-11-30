@@ -1,16 +1,12 @@
 package com.example.scufflegame;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.app.Activity;
-import android.widget.Toast;
-import java.lang.System;
+import android.widget.ImageView;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -25,7 +21,7 @@ public class MainActivity extends Activity implements OnClickListener {
     private Button BattackL;
     private Button BblockR;
     private Button BblockL;
-
+    private ImageView imageView;
     private boolean aHit;
     private boolean bHit;
 
@@ -45,6 +41,12 @@ public class MainActivity extends Activity implements OnClickListener {
         BattackL = (Button) findViewById(R.id.BattackL);
         BblockR = (Button) findViewById(R.id.BblockR);
         BblockL = (Button) findViewById(R.id.BblockL);
+
+        //setting character image corresponding to ID in Main.xml
+        imageView = findViewById(R.id.character);
+
+        //setting as normal character image
+        imageView.setImageResource(R.drawable.normal);
 
         /*The buttons now have onClickListeners set, a method/function of the button class
          * to start a new activity/intent when pressed. In this case, pressing a button
@@ -134,8 +136,12 @@ public class MainActivity extends Activity implements OnClickListener {
 
             if (player == 'a') {
                 AR = true;
+                //setting bottom right attack character image
+                imageView.setImageResource(R.drawable.bottom_right);
             } else {
                 BR = true;
+                //setting top left attack character image
+                imageView.setImageResource(R.drawable.top_left);
             }
             TimerTask damage = new Damage();
             timerR.schedule(damage, 400);
@@ -151,8 +157,12 @@ public class MainActivity extends Activity implements OnClickListener {
 
             if (player == 'a') {
                 AL = true;
+                //setting bottom left attack character image
+                imageView.setImageResource(R.drawable.bottom_left);
             } else {
                 BL = true;
+                //setting top right attack character image
+                imageView.setImageResource(R.drawable.top_right);
             }
             TimerTask damage = new Damage();
             timerL.schedule(damage, 400);
@@ -166,7 +176,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
 
     // cancel method of timer class
-    private void block(char player, char side)
+    /*private void block(char player, char side)
     {
         end = System.nanoTime();
        // Take in the input of defense button
@@ -194,7 +204,7 @@ public class MainActivity extends Activity implements OnClickListener {
         end = 0;
        // reset timer
     }
-
+*/
 
     class Damage extends TimerTask
     {

@@ -135,8 +135,8 @@ public class MainActivity extends Activity implements OnClickListener {
                 imageView.setImageResource(R.drawable.bottom_right);
             } else {
                 BR = true;
-                //setting top right attack character image
-                imageView.setImageResource(R.drawable.top_right);
+                //setting top left attack character image
+                imageView.setImageResource(R.drawable.top_left);
             }
             TimerTask damage = new Damage();
             timerR.schedule(damage, 400);
@@ -153,8 +153,8 @@ public class MainActivity extends Activity implements OnClickListener {
                 imageView.setImageResource(R.drawable.bottom_left);
             } else {
                 BL = true;
-                //setting top left attack character image
-                imageView.setImageResource(R.drawable.top_left);
+                //setting top right attack character image
+                imageView.setImageResource(R.drawable.top_right);
             }
             TimerTask damage = new Damage();
             timerL.schedule(damage, 400);
@@ -163,11 +163,13 @@ public class MainActivity extends Activity implements OnClickListener {
             TimerTask punchL = new punchAnimation();
             timerPunchL.schedule(punchL, 400);
         }
+        //CHANGE THIS
+        return 0;
     }
 
 
     // cancel method of timer class
-    private void block(char player, char side)
+    /*private void block(char player, char side)
     {
        // Take in the input of defense button
         if (side == 'r') {
@@ -194,7 +196,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
        // reset global timer
     }
-
+*/
 
     class Damage extends TimerTask
     {

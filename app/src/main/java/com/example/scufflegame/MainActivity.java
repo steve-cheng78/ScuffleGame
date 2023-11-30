@@ -119,16 +119,14 @@ public class MainActivity extends Activity implements OnClickListener {
 
     }
 
-    private void attack(char player, char side)
+    private char attack(char player, char side)
     {
         //activate attack indication animation
 
-        //start timer
-        timerR = new Timer();
-
-
         //Activate the correct "active attack" indicator
         if (side == 'r') {
+            timerR = new Timer(); //start timer associated with right side attack
+            char attackout;
             if (player == 'a') {
                 AR = true;
             } else {
@@ -142,6 +140,7 @@ public class MainActivity extends Activity implements OnClickListener {
             timerPunchR.schedule(punchR, 400);
 
         } else {
+            timerL = new Timer(); // start timer associated with left side attack
             if (player == 'a') {
                 AL = true;
             } else {
@@ -156,12 +155,44 @@ public class MainActivity extends Activity implements OnClickListener {
         }
     }
 
+
+    // cancel method of timer class
+    private void block(char player, char side)
+    {
+       // Take in the input of defense button
+        if (side == 'r') {
+            if (timerR < 400) {
+                if (side == 'a') {
+                    healthA++; //negate damage done by attack from b on right side
+                }
+                else if (side =='b'){
+                    healthB++; //negate damage done by attack from a on right side
+                }
+            }
+        }
+        else if (side == 'l'){
+            if (timerL < 400){
+                if (side == 'a') {
+                    healthA++; //negate damage done by attack from b on left side
+                }
+                else if (side =='b'){
+                    healthB++; //negate damage done by attack from a on left side
+                }
+            }
+        }
+       // Check if they pressed it in time for the defense
+
+       // reset global timer
+    }
+
+
     class Damage extends TimerTask
     {
         public void run()
         {
             healthA--;
         }
+
     }
 
     class punchAnimation extends TimerTask

@@ -125,6 +125,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
         //Activate the correct "active attack" indicator
         if (side == 'r') {
+            timerR.cancel();
             timerR = new Timer(); //start timer associated with right side attack
             char attackout;
             if (player == 'a') {
@@ -140,6 +141,7 @@ public class MainActivity extends Activity implements OnClickListener {
             timerPunchR.schedule(punchR, 400);
 
         } else {
+            timerL.cancel();
             timerL = new Timer(); // start timer associated with left side attack
             if (player == 'a') {
                 AL = true;
@@ -161,7 +163,7 @@ public class MainActivity extends Activity implements OnClickListener {
     {
        // Take in the input of defense button
         if (side == 'r') {
-            if (timerR < 400) {
+            if () {
                 if (side == 'a') {
                     healthA++; //negate damage done by attack from b on right side
                 }

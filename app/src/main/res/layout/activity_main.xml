@@ -8,25 +8,9 @@
     android:padding="16dp"
     tools:ignore="ExtraText"><![CDATA[
     tools:context=".MainActivity">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     ]]>
 
+    //top left block
     <Button
         android:id="@+id/BblockL"
         android:layout_width="112dp"
@@ -43,6 +27,7 @@
         app:layout_constraintVertical_bias="0.047"
         tools:ignore="MissingConstraints" />
 
+    //top right block
     <Button
         android:id="@+id/BblockR"
         android:layout_width="112dp"
@@ -59,6 +44,7 @@
         app:layout_constraintVertical_bias="0.046"
         tools:ignore="MissingConstraints" />
 
+    //top right attack
     <Button
         android:id="@+id/BattackR"
         android:layout_width="112dp"
@@ -75,6 +61,7 @@
         app:layout_constraintVertical_bias="0.157"
         tools:ignore="MissingConstraints" />
 
+    //top left attack
     <Button
         android:id="@+id/BattackL"
         android:layout_width="112dp"
@@ -91,6 +78,7 @@
         app:layout_constraintVertical_bias="0.157"
         tools:ignore="MissingConstraints" />
 
+    //bottom right block
     <Button
         android:id="@+id/AblockR"
         android:layout_width="112dp"
@@ -106,6 +94,7 @@
         app:layout_constraintVertical_bias="0.953"
         tools:ignore="MissingConstraints" />
 
+    //bottom left block
     <Button
         android:id="@+id/AblockL"
         android:layout_width="112dp"
@@ -121,6 +110,7 @@
         app:layout_constraintVertical_bias="0.953"
         tools:ignore="MissingConstraints" />
 
+    //bottom left attack
     <Button
         android:id="@+id/AattackL"
         android:layout_width="112dp"
@@ -136,6 +126,7 @@
         app:layout_constraintVertical_bias="0.842"
         tools:ignore="MissingConstraints" />
 
+    //bottom right attack
     <Button
         android:id="@+id/AattackR"
         android:layout_width="112dp"
@@ -200,6 +191,7 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_end="161dp" />
 
+    //main (normal) image
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="505dp"

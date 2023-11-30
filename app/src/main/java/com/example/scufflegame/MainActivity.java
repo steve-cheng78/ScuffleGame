@@ -42,8 +42,11 @@ public class MainActivity extends Activity implements OnClickListener {
         BblockR = (Button) findViewById(R.id.BblockR);
         BblockL = (Button) findViewById(R.id.BblockL);
 
-        //setting character images as normal
+        //setting character image corresponding to ID in Main.xml
         imageView = findViewById(R.id.character);
+
+        //setting as normal character image
+        imageView.setImageResource(R.drawable.normal);
 
         /*The buttons now have onClickListeners set, a method/function of the button class
          * to start a new activity/intent when pressed. In this case, pressing a button
@@ -128,8 +131,12 @@ public class MainActivity extends Activity implements OnClickListener {
             char attackout;
             if (player == 'a') {
                 AR = true;
+                //setting bottom right attack character image
+                imageView.setImageResource(R.drawable.bottom_right);
             } else {
                 BR = true;
+                //setting top right attack character image
+                imageView.setImageResource(R.drawable.top_right);
             }
             TimerTask damage = new Damage();
             timerR.schedule(damage, 400);
@@ -142,8 +149,12 @@ public class MainActivity extends Activity implements OnClickListener {
             timerL = new Timer(); // start timer associated with left side attack
             if (player == 'a') {
                 AL = true;
+                //setting bottom left attack character image
+                imageView.setImageResource(R.drawable.bottom_left);
             } else {
                 BL = true;
+                //setting top left attack character image
+                imageView.setImageResource(R.drawable.top_left);
             }
             TimerTask damage = new Damage();
             timerL.schedule(damage, 400);

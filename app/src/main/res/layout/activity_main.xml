@@ -34,6 +34,7 @@
         android:backgroundTint="#987554"
         android:text="Block"
         android:textColor="#FFFFFF"
+        android:rotation="180"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.113"
@@ -49,6 +50,7 @@
         android:backgroundTint="#987554"
         android:text="Block"
         android:textColor="#FFFFFF"
+        android:rotation="180"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.889"
@@ -64,6 +66,7 @@
         android:backgroundTint="#664229"
         android:text="Attack"
         android:textColor="#FFFFFF"
+        android:rotation="180"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.889"
@@ -79,6 +82,7 @@
         android:backgroundTint="#664229"
         android:text="Attack"
         android:textColor="#FFFFFF"
+        android:rotation="180"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.113"
@@ -195,5 +199,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_end="161dp" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="415dp"
+        android:layout_height="527dp"
+        app:srcCompat="@drawable/normal"
+        tools:layout_editor_absoluteX="-20dp"
+        tools:layout_editor_absoluteY="98dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

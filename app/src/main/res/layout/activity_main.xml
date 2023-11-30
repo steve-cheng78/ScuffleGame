@@ -193,7 +193,7 @@
 
     //main (normal) image
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/character"
         android:layout_width="505dp"
         android:layout_height="558dp"
         android:layout_marginStart="16dp"

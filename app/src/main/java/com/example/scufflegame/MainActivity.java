@@ -1,16 +1,12 @@
 package com.example.scufflegame;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.app.Activity;
-import android.widget.Toast;
-import java.lang.System;
+import android.widget.ImageView;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -25,7 +21,7 @@ public class MainActivity extends Activity implements OnClickListener {
     private Button BattackL;
     private Button BblockR;
     private Button BblockL;
-
+    private ImageView imageView;
     private boolean aHit;
     private boolean bHit;
 
@@ -45,6 +41,9 @@ public class MainActivity extends Activity implements OnClickListener {
         BattackL = (Button) findViewById(R.id.BattackL);
         BblockR = (Button) findViewById(R.id.BblockR);
         BblockL = (Button) findViewById(R.id.BblockL);
+
+        //setting character images as normal
+        imageView = findViewById(R.id.character);
 
         /*The buttons now have onClickListeners set, a method/function of the button class
          * to start a new activity/intent when pressed. In this case, pressing a button

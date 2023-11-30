@@ -33,6 +33,7 @@
         android:layout_height="60dp"
         android:backgroundTint="#987554"
         android:text="Block"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.113"
@@ -47,6 +48,7 @@
         android:layout_height="60dp"
         android:backgroundTint="#987554"
         android:text="Block"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.946"
@@ -61,6 +63,7 @@
         android:layout_height="60dp"
         android:backgroundTint="#664229"
         android:text="Attack"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.946"
@@ -75,6 +78,7 @@
         android:layout_height="60dp"
         android:backgroundTint="#664229"
         android:text="Attack"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.11"
@@ -89,6 +93,7 @@
         android:layout_height="60dp"
         android:backgroundTint="#987554"
         android:text="Block"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.946"
@@ -103,6 +108,7 @@
         android:layout_height="60dp"
         android:backgroundTint="#987554"
         android:text="Block"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.117"
@@ -117,6 +123,7 @@
         android:layout_height="60dp"
         android:backgroundTint="#664229"
         android:text="Attack"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.113"
@@ -131,6 +138,7 @@
         android:layout_height="60dp"
         android:backgroundTint="#664229"
         android:text="Attack"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.946"
@@ -138,12 +146,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.864"
         tools:ignore="MissingConstraints" />
-
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="BattackL" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
@@ -172,11 +174,5 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="685dp" />
-
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/group2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="guideline4" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

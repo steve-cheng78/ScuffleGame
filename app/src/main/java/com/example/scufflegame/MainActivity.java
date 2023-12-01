@@ -72,8 +72,6 @@ public class MainActivity extends Activity implements OnClickListener {
      Timer timerR = null;
      Timer timerL = null;
      // Reaction time for the block
-    long begin = 0;
-    long end = 0;
 
      //Player health
      int healthA = 1;
@@ -124,7 +122,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
     }
 
-    private long attack(char player, char side)
+    private void attack(char player, char side)
     {
         //activate attack indication animation
 
@@ -132,7 +130,7 @@ public class MainActivity extends Activity implements OnClickListener {
         if (side == 'r') {
             timerR.cancel();
             timerR = new Timer(); //start timer associated with right side attack
-            begin = System.nanoTime();
+            //begin = System.nanoTime();
 
             if (player == 'a') {
                 AR = true;
@@ -153,7 +151,7 @@ public class MainActivity extends Activity implements OnClickListener {
         } else {
             timerL.cancel();
             timerL = new Timer(); // start timer associated with left side attack
-            long begin = System.nanoTime();
+            //long begin = System.nanoTime();
 
             if (player == 'a') {
                 AL = true;
@@ -171,40 +169,39 @@ public class MainActivity extends Activity implements OnClickListener {
             TimerTask punchL = new punchAnimation();
             timerPunchL.schedule(punchL, 400);
         }
-        return begin;
+        //return begin;
     }
 
 
     // cancel method of timer class
-    /*private void block(char player, char side)
+    private void block(char player, char side)
     {
-        end = System.nanoTime();
-       // Take in the input of defense button
-        if (side == 'r') {
-            if (begin - end < 400) {
-                if (player == 'a') {
-                    healthA++; //negate damage done by attack from b on right side
-                }
-                else if (player =='b'){
-                    healthB++; //negate damage done by attack from a on right side
-                }
-            }
-        }
-        else if (side == 'l'){
-            if (begin - end < 400){
-                if (player == 'a') {
-                    healthA++; //negate damage done by attack from b on left side
-                }
-                else if (player =='b'){
-                    healthB++; //negate damage done by attack from a on left side
-                }
-            }
-        }
-        begin = 0;
-        end = 0;
-       // reset timer
+      if(AR){
+          if(player == 'b' && side == 'r'){
+              timerR.cancel();
+          }
+          AR = false;
+      }
+      else if(BR){
+          if (player == 'a' && side == 'r'){
+              timerR.cancel();
+          }
+          BR = false;
+      }
+      else if (AL){
+          if (player == 'b' && side == 'l'){
+              timerL.cancel();
+          }
+          AL = false;
+      }
+      else if(BL){
+          if (player == 'a' && side =='l'){
+              timerL.cancel();
+          }
+          BL = false;
+      }
+
     }
-*/
 
     class Damage extends TimerTask
     {

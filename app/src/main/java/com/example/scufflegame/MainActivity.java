@@ -62,11 +62,14 @@ public class MainActivity extends Activity implements OnClickListener {
     // A "flaw" that I want to keep and turn into a feature is that players can spam their own
     // attack button to do a "feint". This resets the attack timer and the opponent needs to adjust
     // to that.
-    final Handler handler = new Handler();
+    final Handler handlerR = new Handler();
+    final Handler handlerL = new Handler();
     Timer timerR = new Timer();
      Timer timerL = new Timer();
      Timer timerPunchR = new Timer();
      Timer timerPunchL = new Timer();
+    punchAnimation punchR;
+    punchAnimation punchL;
      // Reaction time for the block
 
      //Player health
@@ -90,25 +93,25 @@ public class MainActivity extends Activity implements OnClickListener {
         //player, either side.
         //When BR is false, a player can begin an attack because an opposing attack on that side has
         // not yet been initiated.
-        if (v.getId() == R.id.AattackR && BR == false) {
+        if (v.getId() == R.id.AattackR && BR == false && AR == false) {
             attack('a','r');
         } else if (v.getId() == R.id.AblockR){
            block('a','r');
         }
 
-        if (v.getId() == R.id.AattackL && BL == false) {
+        if (v.getId() == R.id.AattackL && BL == false && AL == false) {
             attack('a','l');
         } else if (v.getId() == R.id.AblockL){
            block('a','l');
         }
 
-        if (v.getId() == R.id.BattackR && AR == false) {
+        if (v.getId() == R.id.BattackR && AR == false && BR == false) {
             attack('b','r');
         } else if (v.getId() == R.id.BblockR){
            block('b','r');
         }
 
-        if (v.getId() == R.id.BattackL && AL == false) {
+        if (v.getId() == R.id.BattackL && AL == false && BL == false) {
             attack('b','l');
         } else if (v.getId() == R.id.BblockR){
            block('b','l');
@@ -123,8 +126,8 @@ public class MainActivity extends Activity implements OnClickListener {
         //activate attack indication animation
 
         //Activate the correct "active attack" indicator
-        TimerTask damage;
-        punchAnimation punch;
+        //TimerTask damage;
+
         if (side == 'r') {
             //timerR.cancel();
             //timerR = new Timer(); //start timer associated with right side attack
@@ -133,20 +136,20 @@ public class MainActivity extends Activity implements OnClickListener {
             if (player == 'a') {
                 AR = true;
 
-                damage = new Damage('a','r');
-                punch = new punchAnimation('a','r');
+                //damage = new Damage('a','r');
+                punchR = new punchAnimation('a','r');
 
             } else {
                 BR = true;
 
-                damage = new Damage('b','r');
-                punch = new punchAnimation('b','r');
+                //damage = new Damage('b','r');
+                punchR = new punchAnimation('b','r');
             }
 
-            timerR.schedule(damage, 400);
+            //timerR.schedule(damage, 400);
 
             //separate timer just for animation, which plays even if it doesn't do damage
-            handler.postDelayed(punch, 400);
+            handlerR.postDelayed(punchR, 400);
 
         } else {
             //timerL.cancel();
@@ -156,20 +159,20 @@ public class MainActivity extends Activity implements OnClickListener {
             if (player == 'a') {
                 AL = true;
 
-                damage = new Damage('a','l');
-                punch = new punchAnimation('a','l');
+                //damage = new Damage('a','l');
+                punchL = new punchAnimation('a','l');
 
             } else {
                 BL = true;
 
-                damage = new Damage('b','l');
-                punch = new punchAnimation('b','l');
+                //damage = new Damage('b','l');
+                punchL = new punchAnimation('b','l');
             }
 
-            timerL.schedule(damage, 400);
+            //timerL.schedule(damage, 400);
 
             //separate time just for animation, which plays even if it doesn't do damage
-            handler.postDelayed(punch, 400);
+            handlerL.postDelayed(punchL, 400);
         }
         //return begin;
     }
@@ -179,54 +182,58 @@ public class MainActivity extends Activity implements OnClickListener {
     private void block(char player, char side)
     {
       if(AR && player == 'b' && side == 'r'){
-          timerR.cancel();
+          //timerR.cancel();
+          handlerR.removeCallbacks(punchR);
           AR = false;
       }
       else if(BR && player == 'a' && side == 'r'){
-          timerR.cancel();
+          //timerR.cancel();
+          handlerR.removeCallbacks(punchR);
           BR = false;
       }
 
       if (AL && player == 'b' && side == 'l'){
-          timerL.cancel();
+          //timerL.cancel();
+          handlerL.removeCallbacks(punchL);
           AL = false;
       }
       else if(BL && player == 'a' && side == 'l'){
-          timerL.cancel();
+          //timerL.cancel();
+          handlerL.removeCallbacks(punchL);
           BL = false;
       }
 
     }
 
-    class Damage extends TimerTask
-    {
-        char player;
-        char side;
-        Damage (char player, char side) {
-            this.player = player;
-            this.side = side;
-        }
-
-        public void run()
-        {
-            if (this.player == 'a') {
-                healthB--;
-                if (this.side == 'r') {
-                    AR = false;
-                } else {
-                    AL = false;
-                }
-            } else {
-                healthA--;
-                if (this.side == 'r') {
-                    BR = false;
-                } else {
-                    BL = false;
-                }
-            }
-        }
-
-    }
+//    class Damage extends TimerTask
+//    {
+//        char player;
+//        char side;
+//        Damage (char player, char side) {
+//            this.player = player;
+//            this.side = side;
+//        }
+//
+//        public void run()
+//        {
+//            if (this.player == 'a') {
+//                healthB--;
+//                if (this.side == 'r') {
+//                    AR = false;
+//                } else {
+//                    AL = false;
+//                }
+//            } else {
+//                healthA--;
+//                if (this.side == 'r') {
+//                    BR = false;
+//                } else {
+//                    BL = false;
+//                }
+//            }
+//        }
+//
+//    }
 
     class punchAnimation implements Runnable
     {
@@ -241,20 +248,24 @@ public class MainActivity extends Activity implements OnClickListener {
         public void run() {
             //punch animation code
             if (this.player == 'a') {
-
+                healthB--;
                 if (this.side == 'r') {
+                    AR = false;
                     //setting bottom right attack character image
                     imageView.setImageResource(R.drawable.bottom_right);
                 } else {
+                    AL = false;
                     //setting bottom left attack character image
                     imageView.setImageResource(R.drawable.bottom_left);
                 }
             } else {
                 healthA--;
                 if (this.side == 'r') {
+                    BR = false;
                     //setting top left attack character image
                     imageView.setImageResource(R.drawable.top_left);
                 } else {
+                    BL = false;
                     //setting top right attack character image
                     imageView.setImageResource(R.drawable.top_right);
                 }

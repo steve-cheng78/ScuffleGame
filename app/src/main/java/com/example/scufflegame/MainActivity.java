@@ -1,6 +1,7 @@
 package com.example.scufflegame;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -61,7 +62,8 @@ public class MainActivity extends Activity implements OnClickListener {
     // A "flaw" that I want to keep and turn into a feature is that players can spam their own
     // attack button to do a "feint". This resets the attack timer and the opponent needs to adjust
     // to that.
-     Timer timerR = new Timer();
+    final Handler handler = new Handler();
+    Timer timerR = new Timer();
      Timer timerL = new Timer();
      Timer timerPunchR = new Timer();
      Timer timerPunchL = new Timer();
@@ -122,7 +124,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
         //Activate the correct "active attack" indicator
         TimerTask damage;
-        TimerTask punch;
+        punchAnimation punch;
         if (side == 'r') {
             //timerR.cancel();
             //timerR = new Timer(); //start timer associated with right side attack
@@ -130,15 +132,13 @@ public class MainActivity extends Activity implements OnClickListener {
 
             if (player == 'a') {
                 AR = true;
-                //setting bottom right attack character image
-                imageView.setImageResource(R.drawable.bottom_right);
+
                 damage = new Damage('a','r');
                 punch = new punchAnimation('a','r');
 
             } else {
                 BR = true;
-                //setting top left attack character image
-                imageView.setImageResource(R.drawable.top_left);
+
                 damage = new Damage('b','r');
                 punch = new punchAnimation('b','r');
             }
@@ -146,7 +146,7 @@ public class MainActivity extends Activity implements OnClickListener {
             timerR.schedule(damage, 400);
 
             //separate timer just for animation, which plays even if it doesn't do damage
-            timerPunchR.schedule(punch, 400);
+            handler.postDelayed(punch, 400);
 
         } else {
             //timerL.cancel();
@@ -155,15 +155,13 @@ public class MainActivity extends Activity implements OnClickListener {
 
             if (player == 'a') {
                 AL = true;
-                //setting bottom left attack character image
-                imageView.setImageResource(R.drawable.bottom_left);
+
                 damage = new Damage('a','l');
                 punch = new punchAnimation('a','l');
 
             } else {
                 BL = true;
-                //setting top right attack character image
-                imageView.setImageResource(R.drawable.top_right);
+
                 damage = new Damage('b','l');
                 punch = new punchAnimation('b','l');
             }
@@ -171,7 +169,7 @@ public class MainActivity extends Activity implements OnClickListener {
             timerL.schedule(damage, 400);
 
             //separate time just for animation, which plays even if it doesn't do damage
-            timerPunchL.schedule(punch, 400);
+            handler.postDelayed(punch, 400);
         }
         //return begin;
     }
@@ -230,7 +228,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
     }
 
-    class punchAnimation extends TimerTask
+    class punchAnimation implements Runnable
     {
         char player;
         char side;
@@ -238,25 +236,33 @@ public class MainActivity extends Activity implements OnClickListener {
             this.player = player;
             this.side = side;
         }
-        public void run()
-        {
+
+        @Override
+        public void run() {
             //punch animation code
             if (this.player == 'a') {
 
                 if (this.side == 'r') {
-                    //AR punch animation
+                    //setting bottom right attack character image
+                    imageView.setImageResource(R.drawable.bottom_right);
                 } else {
-                    //AL punch animation
+                    //setting bottom left attack character image
+                    imageView.setImageResource(R.drawable.bottom_left);
                 }
             } else {
                 healthA--;
                 if (this.side == 'r') {
-                    //BR punch animation
+                    //setting top left attack character image
+                    imageView.setImageResource(R.drawable.top_left);
                 } else {
-                    //BL punch animation
+                    //setting top right attack character image
+                    imageView.setImageResource(R.drawable.top_right);
                 }
             }
         }
+
+
+
     }
 
 

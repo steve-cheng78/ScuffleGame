@@ -183,9 +183,11 @@ public class MainActivity extends Activity implements OnClickListener {
         if (side == 'r') {
             if (begin - end < 400) {
                 if (player == 'a') {
+                    imageView.setImageResource(R.drawable.bottom_right_block);
                     healthA++; //negate damage done by attack from b on right side
                 }
                 else if (player =='b'){
+                    
                     healthB++; //negate damage done by attack from a on right side
                 }
             }

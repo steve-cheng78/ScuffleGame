@@ -13,14 +13,6 @@ import java.util.TimerTask;
 
 public class MainActivity extends Activity implements OnClickListener {
 
-    private Button AattackR;
-    private Button AattackL;
-    private Button AblockR;
-    private Button AblockL;
-    private Button BattackR;
-    private Button BattackL;
-    private Button BblockR;
-    private Button BblockL;
     private ImageView imageView;
     private boolean aHit;
     private boolean bHit;
@@ -33,14 +25,14 @@ public class MainActivity extends Activity implements OnClickListener {
         setContentView(R.layout.activity_main);
 
         //The buttons have parameters corresponding to the IDs in Main.xml
-        AattackR = (Button) findViewById(R.id.AattackR);
-        AattackL = (Button) findViewById(R.id.AattackL);
-        AblockR = (Button) findViewById(R.id.AblockR);
-        AblockL = (Button) findViewById(R.id.AblockL);
-        BattackR = (Button) findViewById(R.id.BattackR);
-        BattackL = (Button) findViewById(R.id.BattackL);
-        BblockR = (Button) findViewById(R.id.BblockR);
-        BblockL = (Button) findViewById(R.id.BblockL);
+        Button AattackR = (Button) findViewById(R.id.AattackR);
+        Button AattackL = (Button) findViewById(R.id.AattackL);
+        Button AblockR = (Button) findViewById(R.id.AblockR);
+        Button AblockL = (Button) findViewById(R.id.AblockL);
+        Button BattackR = (Button) findViewById(R.id.BattackR);
+        Button BattackL = (Button) findViewById(R.id.BattackL);
+        Button BblockR = (Button) findViewById(R.id.BblockR);
+        Button BblockL = (Button) findViewById(R.id.BblockL);
 
         //setting character image corresponding to ID in Main.xml
         imageView = findViewById(R.id.character);
@@ -69,13 +61,15 @@ public class MainActivity extends Activity implements OnClickListener {
     // A "flaw" that I want to keep and turn into a feature is that players can spam their own
     // attack button to do a "feint". This resets the attack timer and the opponent needs to adjust
     // to that.
-     Timer timerR = null;
-     Timer timerL = null;
+     Timer timerR = new Timer();
+     Timer timerL = new Timer();
+     Timer timerPunchR = new Timer();
+     Timer timerPunchL = new Timer();
      // Reaction time for the block
 
      //Player health
-     int healthA = 1;
-     int healthB = 1;
+     int healthA = 3;
+     int healthB = 3;
 
     //"Active attack" indicators: indicates when a character+side is in the process of attacking.
      boolean AR = false;
@@ -127,47 +121,57 @@ public class MainActivity extends Activity implements OnClickListener {
         //activate attack indication animation
 
         //Activate the correct "active attack" indicator
+        TimerTask damage;
+        TimerTask punch;
         if (side == 'r') {
-            timerR.cancel();
-            timerR = new Timer(); //start timer associated with right side attack
+            //timerR.cancel();
+            //timerR = new Timer(); //start timer associated with right side attack
             //begin = System.nanoTime();
 
             if (player == 'a') {
                 AR = true;
                 //setting bottom right attack character image
                 imageView.setImageResource(R.drawable.bottom_right);
+                damage = new Damage('a','r');
+                punch = new punchAnimation('a','r');
+
             } else {
                 BR = true;
                 //setting top left attack character image
                 imageView.setImageResource(R.drawable.top_left);
+                damage = new Damage('b','r');
+                punch = new punchAnimation('b','r');
             }
-            TimerTask damage = new Damage();
+
             timerR.schedule(damage, 400);
 
-            Timer timerPunchR = new Timer();
-            TimerTask punchR = new punchAnimation();
-            timerPunchR.schedule(punchR, 400);
+            //separate timer just for animation, which plays even if it doesn't do damage
+            timerPunchR.schedule(punch, 400);
 
         } else {
-            timerL.cancel();
-            timerL = new Timer(); // start timer associated with left side attack
+            //timerL.cancel();
+            //timerL = new Timer(); // start timer associated with left side attack
             //long begin = System.nanoTime();
 
             if (player == 'a') {
                 AL = true;
                 //setting bottom left attack character image
                 imageView.setImageResource(R.drawable.bottom_left);
+                damage = new Damage('a','l');
+                punch = new punchAnimation('a','l');
+
             } else {
                 BL = true;
                 //setting top right attack character image
                 imageView.setImageResource(R.drawable.top_right);
+                damage = new Damage('b','l');
+                punch = new punchAnimation('b','l');
             }
-            TimerTask damage = new Damage();
+
             timerL.schedule(damage, 400);
 
-            Timer timerPunchL = new Timer();
-            TimerTask punchL = new punchAnimation();
-            timerPunchL.schedule(punchL, 400);
+            //separate time just for animation, which plays even if it doesn't do damage
+            timerPunchL.schedule(punch, 400);
         }
         //return begin;
     }
@@ -176,28 +180,21 @@ public class MainActivity extends Activity implements OnClickListener {
     // cancel method of timer class
     private void block(char player, char side)
     {
-      if(AR){
-          if(player == 'b' && side == 'r'){
-              timerR.cancel();
-          }
+      if(AR && player == 'b' && side == 'r'){
+          timerR.cancel();
           AR = false;
       }
-      else if(BR){
-          if (player == 'a' && side == 'r'){
-              timerR.cancel();
-          }
+      else if(BR && player == 'a' && side == 'r'){
+          timerR.cancel();
           BR = false;
       }
-      else if (AL){
-          if (player == 'b' && side == 'l'){
-              timerL.cancel();
-          }
+
+      if (AL && player == 'b' && side == 'l'){
+          timerL.cancel();
           AL = false;
       }
-      else if(BL){
-          if (player == 'a' && side =='l'){
-              timerL.cancel();
-          }
+      else if(BL && player == 'a' && side == 'l'){
+          timerL.cancel();
           BL = false;
       }
 
@@ -205,18 +202,60 @@ public class MainActivity extends Activity implements OnClickListener {
 
     class Damage extends TimerTask
     {
+        char player;
+        char side;
+        Damage (char player, char side) {
+            this.player = player;
+            this.side = side;
+        }
+
         public void run()
         {
-            healthA--;
+            if (this.player == 'a') {
+                healthB--;
+                if (this.side == 'r') {
+                    AR = false;
+                } else {
+                    AL = false;
+                }
+            } else {
+                healthA--;
+                if (this.side == 'r') {
+                    BR = false;
+                } else {
+                    BL = false;
+                }
+            }
         }
 
     }
 
     class punchAnimation extends TimerTask
     {
+        char player;
+        char side;
+        punchAnimation (char player, char side) {
+            this.player = player;
+            this.side = side;
+        }
         public void run()
         {
             //punch animation code
+            if (this.player == 'a') {
+
+                if (this.side == 'r') {
+                    //AR punch animation
+                } else {
+                    //AL punch animation
+                }
+            } else {
+                healthA--;
+                if (this.side == 'r') {
+                    //BR punch animation
+                } else {
+                    //BL punch animation
+                }
+            }
         }
     }
 

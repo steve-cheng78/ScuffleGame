@@ -113,7 +113,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
         if (v.getId() == R.id.BattackL && AL == false && BL == false) {
             attack('b','l');
-        } else if (v.getId() == R.id.BblockR){
+        } else if (v.getId() == R.id.BblockL){
            block('b','l');
         }
 
@@ -185,22 +185,26 @@ public class MainActivity extends Activity implements OnClickListener {
           //timerR.cancel();
           handlerR.removeCallbacks(punchR);
           AR = false;
+          imageView.setImageResource(R.drawable.top_right_block);
       }
       else if(BR && player == 'a' && side == 'r'){
           //timerR.cancel();
           handlerR.removeCallbacks(punchR);
           BR = false;
+          imageView.setImageResource(R.drawable.bottom_right_block);
       }
 
       if (AL && player == 'b' && side == 'l'){
           //timerL.cancel();
           handlerL.removeCallbacks(punchL);
           AL = false;
+          imageView.setImageResource(R.drawable.top_left_block);
       }
       else if(BL && player == 'a' && side == 'l'){
           //timerL.cancel();
           handlerL.removeCallbacks(punchL);
           BL = false;
+          imageView.setImageResource(R.drawable.bottom_left_block);
       }
 
     }

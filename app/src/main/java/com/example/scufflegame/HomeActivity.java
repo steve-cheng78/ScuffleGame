@@ -17,14 +17,15 @@ import android.widget.Button;
 public class HomeActivity extends AppCompatActivity {
 
     MediaPlayer start_song;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        //adding background music
         start_song = MediaPlayer.create(HomeActivity.this, R.raw.start_song);
         start_song.start();
+        start_song.setLooping(true);
 
         Button startGameButton = findViewById(R.id.button_start_game);
         startGameButton.setOnClickListener(new View.OnClickListener() {

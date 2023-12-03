@@ -1,5 +1,6 @@
 package com.example.scufflegame;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -18,12 +19,14 @@ public class MainActivity extends Activity implements OnClickListener {
     private boolean aHit;
     private boolean bHit;
 
-
+    MediaPlayer punch_sound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        punch_sound = MediaPlayer.create(MainActivity.this, R.raw.punch_sound);
 
         //The buttons have parameters corresponding to the IDs in Main.xml
         Button AattackR = (Button) findViewById(R.id.AattackR);
@@ -283,6 +286,9 @@ public class MainActivity extends Activity implements OnClickListener {
         @Override
         public void run() {
             //punch animation code
+
+            punch_sound.start();
+
             if (this.player == 'a') {
                 healthB--;
                 if (this.side == 'r') {

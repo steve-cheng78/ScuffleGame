@@ -274,6 +274,16 @@ public class MainActivity extends Activity implements OnClickListener {
                     imageView.setImageResource(R.drawable.top_right);
                 }
             }
+
+            Handler handler = (side == 'r') ? handlerR : handlerL;
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    imageView.setImageResource(R.drawable.normal);
+                }
+            }, 500); // Delay time in milliseconds after which to revert image
+        }
+        
         }
 
 

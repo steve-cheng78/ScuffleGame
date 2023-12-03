@@ -15,9 +15,6 @@ import java.util.TimerTask;
 public class MainActivity extends Activity implements OnClickListener {
 
     private ImageView imageView;
-    private boolean aHit;
-    private boolean bHit;
-
 
 
     @Override
@@ -42,8 +39,7 @@ public class MainActivity extends Activity implements OnClickListener {
         imageView.setImageResource(R.drawable.normal);
 
         /*The buttons now have onClickListeners set, a method/function of the button class
-         * to start a new activity/intent when pressed. In this case, pressing a button
-         * will go to the results page.
+         * to start a new activity/intent when pressed.
          * */
         AattackR.setOnClickListener(this);
         AattackL.setOnClickListener(this);
@@ -64,13 +60,24 @@ public class MainActivity extends Activity implements OnClickListener {
     // to that.
     final Handler handlerR = new Handler();
     final Handler handlerL = new Handler();
-    Timer timerR = new Timer();
-     Timer timerL = new Timer();
-     Timer timerPunchR = new Timer();
-     Timer timerPunchL = new Timer();
+    final Handler handlerNormA = new Handler();
+    final Handler handlerNormB = new Handler();
+    final Handler attackState = new Handler();
+
+    stateChange stateChangeAR = new stateChange('a','r');
+    stateChange stateChangeBR = new stateChange('b','r');
+    stateChange stateChangeAL = new stateChange('a','l');
+    stateChange stateChangeBL = new stateChange('b','l');
     punchAnimation punchR;
     punchAnimation punchL;
-     // Reaction time for the block
+    punchAnimation punchAR = new punchAnimation('a','r');
+    punchAnimation punchAL = new punchAnimation('a','l');
+    punchAnimation punchBR = new punchAnimation('b','r');
+    punchAnimation punchBL = new punchAnimation('b','l');
+    blockAnimation blockR;
+    blockAnimation blockL;
+
+    normReset normPos = new normReset();
 
      //Player health
      int healthA = 3;
@@ -81,6 +88,14 @@ public class MainActivity extends Activity implements OnClickListener {
      boolean AL = false;
      boolean BR = false;
      boolean BL = false;
+     boolean feintingAR = false;
+     boolean feintingAL = false;
+     boolean feintingBR = false;
+     boolean feintingBL = false;
+     boolean interruptAR = false;
+     boolean interruptAL = false;
+     boolean interruptBR = false;
+     boolean interruptBL = false;
 
     @Override
     /*onClick is what is called when the buttons are pressed and they take in Views as arguments
@@ -93,25 +108,25 @@ public class MainActivity extends Activity implements OnClickListener {
         //player, either side.
         //When BR is false, a player can begin an attack because an opposing attack on that side has
         // not yet been initiated.
-        if (v.getId() == R.id.AattackR && BR == false && AR == false) {
+        if (v.getId() == R.id.AattackR && (!BR || feintingBR) && !interruptBR) {
             attack('a','r');
         } else if (v.getId() == R.id.AblockR){
            block('a','r');
         }
 
-        if (v.getId() == R.id.AattackL && BL == false && AL == false) {
+        if (v.getId() == R.id.AattackL && (!BL || feintingBL) && !interruptBL) {
             attack('a','l');
         } else if (v.getId() == R.id.AblockL){
            block('a','l');
         }
 
-        if (v.getId() == R.id.BattackR && AR == false && BR == false) {
+        if (v.getId() == R.id.BattackR && (!AR || feintingAR) && !interruptAR) {
             attack('b','r');
         } else if (v.getId() == R.id.BblockR){
            block('b','r');
         }
 
-        if (v.getId() == R.id.BattackL && AL == false && BL == false) {
+        if (v.getId() == R.id.BattackL && (!AL || feintingAL) && !interruptAL) {
             attack('b','l');
         } else if (v.getId() == R.id.BblockL){
            block('b','l');
@@ -123,10 +138,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
     private void attack(char player, char side)
     {
-        //activate attack indication animation
-
         //Activate the correct "active attack" indicator
-        //TimerTask damage;
 
         // Determine which handler to use based on the side
         Handler currentHandler = (side == 'r') ? handlerR : handlerL;
@@ -140,60 +152,108 @@ public class MainActivity extends Activity implements OnClickListener {
                 imageView.setImageResource(lightningBoltImageId);
 
                 // Schedule the punch animation to occur after the lightning bolt
-                Runnable punch = new punchAnimation(player, side);
+                //Runnable punch = new punchAnimation(player, side);
 
-                currentHandler.postDelayed(punch, 400); // Show the bolt for 200 ms before punch
+                //currentHandler.postDelayed(punch, 400); // Show the bolt for 200 ms before punch
             }
         }, 0); // Immediate execution for lightning bolt
         
 
         if (side == 'r') {
-            //timerR.cancel();
-            //timerR = new Timer(); //start timer associated with right side attack
-            //begin = System.nanoTime();
 
             if (player == 'a') {
-                AR = true;
+                if (feintingBR) {
 
-                //damage = new Damage('a','r');
-                punchR = new punchAnimation('a','r');
+                    handlerR.removeCallbacks(punchBR);
+                    handlerR.postDelayed(punchAR, 400);
+                    interruptAR = true;
+                } else {
+                    if (AR == true) {
+                        //"Feint": cancel previous punch, cancel block for previous punch if any
+                        handlerR.removeCallbacks(punchAR);
+                        handlerNormA.removeCallbacks(normPos);
+                        handlerR.removeCallbacks(blockR);
+                        attackState.removeCallbacks(stateChangeAR);
+                        feintingAR = true;
+                        attackState.postDelayed(stateChangeAR,200);
+                    } else {
+                        AR = true;
+                    }
+                    handlerR.postDelayed(punchAR, 400);
+                }
+                handlerNormA.postDelayed(normPos, 600);
 
             } else {
-                BR = true;
-
-                //damage = new Damage('b','r');
-                punchR = new punchAnimation('b','r');
+                if (feintingAR) {
+                    handlerR.removeCallbacks(punchAR);
+                    handlerR.postDelayed(punchBR,400);
+                    interruptBR = true;
+                } else {
+                    if (BR == true) {
+                        handlerR.removeCallbacks(punchBR);
+                        handlerNormB.removeCallbacks(normPos);
+                        handlerR.removeCallbacks(blockR);
+                        attackState.removeCallbacks(stateChangeBR);
+                        feintingBR = true;
+                        attackState.postDelayed(stateChangeBR,200);
+                    } else {
+                        BR = true;
+                    }
+                    handlerR.postDelayed(punchBR, 400);
+                }
+                handlerNormB.postDelayed(normPos, 600);
             }
 
-            //timerR.schedule(damage, 400);
 
-            //separate timer just for animation, which plays even if it doesn't do damage
-            handlerR.postDelayed(punchR, 400);
 
         } else {
-            //timerL.cancel();
-            //timerL = new Timer(); // start timer associated with left side attack
-            //long begin = System.nanoTime();
 
             if (player == 'a') {
-                AL = true;
+                if (feintingBL) {
 
-                //damage = new Damage('a','l');
-                punchL = new punchAnimation('a','l');
+                    handlerL.removeCallbacks(punchBL);
+                    handlerL.postDelayed(punchAL,400);
+                    interruptAL = true;
+                }
+                else{
+                    if (AL == true) {
+                        handlerL.removeCallbacks(punchAL);
+                        handlerNormA.removeCallbacks(normPos);
+                        handlerL.removeCallbacks(blockL);
+                        attackState.removeCallbacks(stateChangeAL);
+                        feintingAL = true;
+                        attackState.postDelayed(stateChangeAL, 200);
+                    } else {
+                        AL = true;
+                    }
+                    handlerL.postDelayed(punchAL, 400);
+                }
+                handlerNormA.postDelayed(normPos, 600);
 
             } else {
-                BL = true;
+                if (feintingAL) {
 
-                //damage = new Damage('b','l');
-                punchL = new punchAnimation('b','l');
+                    handlerL.removeCallbacks(punchAL);
+                    handlerL.postDelayed(punchBL,400);
+                    interruptBL = true;
+                } else {
+                    if (BL == true) {
+                        handlerL.removeCallbacks(punchBL);
+                        handlerNormB.removeCallbacks(normPos);
+                        handlerL.removeCallbacks(blockL);
+                        attackState.removeCallbacks(stateChangeBL);
+                        feintingBL = true;
+                        attackState.postDelayed(stateChangeBL,200);
+                    } else {
+                        BL = true;
+                    }
+
+                    handlerL.postDelayed(punchBL, 400);
+                }
+                handlerNormB.postDelayed(normPos, 600);
             }
-
-            //timerL.schedule(damage, 400);
-
-            //separate time just for animation, which plays even if it doesn't do damage
-            handlerL.postDelayed(punchL, 400);
         }
-        //return begin;
+
     }
 
     private int getLightningBoltImageId(char player, char side) {
@@ -213,64 +273,94 @@ public class MainActivity extends Activity implements OnClickListener {
     // cancel method of timer class
     private void block(char player, char side)
     {
-      if(AR && player == 'b' && side == 'r'){
-          //timerR.cancel();
-          handlerR.removeCallbacks(punchR);
-          AR = false;
-          imageView.setImageResource(R.drawable.top_right_block);
-      }
-      else if(BR && player == 'a' && side == 'r'){
-          //timerR.cancel();
-          handlerR.removeCallbacks(punchR);
-          BR = false;
-          imageView.setImageResource(R.drawable.bottom_right_block);
-      }
+        if(AR && player == 'b' && side == 'r'){
+            //replace punch animation with block animation
+            handlerR.removeCallbacks(punchAR);
+            handlerNormA.removeCallbacks(normPos);
+            blockR = new blockAnimation('b','r');
+            handlerR.postDelayed(blockR,200);
+            handlerNormB.postDelayed(normPos,600);
 
-      if (AL && player == 'b' && side == 'l'){
-          //timerL.cancel();
-          handlerL.removeCallbacks(punchL);
-          AL = false;
-          imageView.setImageResource(R.drawable.top_left_block);
-      }
-      else if(BL && player == 'a' && side == 'l'){
-          //timerL.cancel();
-          handlerL.removeCallbacks(punchL);
-          BL = false;
-          imageView.setImageResource(R.drawable.bottom_left_block);
-      }
+        }
+        else if(BR && player == 'a' && side == 'r'){
+            //replace punch animation with block animation
+            handlerR.removeCallbacks(punchBR);
+            handlerNormB.removeCallbacks(normPos);
+            blockR = new blockAnimation('a','r');
+            handlerR.postDelayed(blockR,200);
+            handlerNormA.postDelayed(normPos,600);
+
+        }
+
+        if (AL && player == 'b' && side == 'l'){
+            //replace punch animation with block animation
+            handlerL.removeCallbacks(punchAL);
+            handlerNormA.removeCallbacks(normPos);
+            blockL = new blockAnimation('b','l');
+            handlerL.postDelayed(blockL,200);
+            handlerNormB.postDelayed(normPos,600);
+
+        }
+        else if(BL && player == 'a' && side == 'l'){
+            //replace punch animation with block animation
+            handlerL.removeCallbacks(punchBL);
+            handlerNormB.removeCallbacks(normPos);
+            blockL = new blockAnimation('a','l');
+            handlerL.postDelayed(blockL,200);
+            handlerNormA.postDelayed(normPos,600);
+
+        }
 
     }
 
-//    class Damage extends TimerTask
-//    {
-//        char player;
-//        char side;
-//        Damage (char player, char side) {
-//            this.player = player;
-//            this.side = side;
-//        }
-//
-//        public void run()
-//        {
-//            if (this.player == 'a') {
-//                healthB--;
-//                if (this.side == 'r') {
-//                    AR = false;
-//                } else {
-//                    AL = false;
-//                }
-//            } else {
-//                healthA--;
-//                if (this.side == 'r') {
-//                    BR = false;
-//                } else {
-//                    BL = false;
-//                }
-//            }
-//        }
-//
-//    }
+    class normReset implements  Runnable {
+        @Override
+        public void run() {
+            //normal position
+            imageView.setImageResource(R.drawable.normal);
 
+        }
+    }
+
+    class blockAnimation implements Runnable
+    {
+        char player;
+        char side;
+        blockAnimation (char player, char side) {
+            this.player = player;
+            this.side = side;
+        }
+
+        @Override
+        public void run() {
+            //punch animation code
+            if (this.player == 'b') {
+
+                if (this.side == 'r') {
+                    AR = false;
+                    //setting bottom right attack character image
+                    imageView.setImageResource(R.drawable.top_right_block);
+
+                } else {
+                    AL = false;
+                    //setting bottom left attack character image
+                    imageView.setImageResource(R.drawable.top_left_block);
+                }
+            } else {
+
+                if (this.side == 'r') {
+                    BR = false;
+                    //setting top left attack character image
+                    imageView.setImageResource(R.drawable.bottom_right_block);
+                } else {
+                    BL = false;
+                    //setting top right attack character image
+                    imageView.setImageResource(R.drawable.bottom_left_block);
+                }
+            }
+        }
+
+    }
     class punchAnimation implements Runnable
     {
         char player;
@@ -287,10 +377,12 @@ public class MainActivity extends Activity implements OnClickListener {
                 healthB--;
                 if (this.side == 'r') {
                     AR = false;
+                    interruptAR = false;
                     //setting bottom right attack character image
                     imageView.setImageResource(R.drawable.bottom_right);
                 } else {
                     AL = false;
+                    interruptAL = false;
                     //setting bottom left attack character image
                     imageView.setImageResource(R.drawable.bottom_left);
                 }
@@ -298,29 +390,51 @@ public class MainActivity extends Activity implements OnClickListener {
                 healthA--;
                 if (this.side == 'r') {
                     BR = false;
+                    interruptBR = false;
                     //setting top left attack character image
                     imageView.setImageResource(R.drawable.top_left);
                 } else {
                     BL = false;
+                    interruptBL = false;
                     //setting top right attack character image
                     imageView.setImageResource(R.drawable.top_right);
                 }
             }
 
-            Handler handler = (side == 'r') ? handlerR : handlerL;
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    imageView.setImageResource(R.drawable.normal);
-                }
-            }, 500); // Delay time in milliseconds after which to revert image
         }
-        
-        }
-
 
 
     }
 
+    class stateChange implements Runnable
+    {
+        char player;
+        char side;
+        stateChange (char player, char side) {
+            this.player = player;
+            this.side = side;
+        }
+
+        @Override
+        public void run() {
+            //punch animation code
+            if (this.player == 'a') {
+                if (this.side == 'r') {
+                    feintingAR = false;
+                } else {
+                    feintingAL = false;
+                }
+            } else {
+                if (this.side == 'r') {
+                    feintingBR = false;
+                } else {
+                    feintingBL = false;
+
+                }
+            }
+        }
+
+
+    }
 
 }

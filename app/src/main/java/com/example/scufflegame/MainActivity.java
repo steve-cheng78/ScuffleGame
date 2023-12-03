@@ -140,6 +140,25 @@ public class MainActivity extends Activity implements OnClickListener {
     {
         //Activate the correct "active attack" indicator
 
+        // Determine which handler to use based on the side
+        Handler currentHandler = (side == 'r') ? handlerR : handlerL;
+
+        currentHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+               
+                // Set the lightning bolt image based on the player and side
+                int lightningBoltImageId = getLightningBoltImageId(player, side);
+                imageView.setImageResource(lightningBoltImageId);
+
+                // Schedule the punch animation to occur after the lightning bolt
+                //Runnable punch = new punchAnimation(player, side);
+
+                //currentHandler.postDelayed(punch, 400); // Show the bolt for 200 ms before punch
+            }
+        }, 0); // Immediate execution for lightning bolt
+        
+
         if (side == 'r') {
 
             if (player == 'a') {
@@ -237,7 +256,20 @@ public class MainActivity extends Activity implements OnClickListener {
 
     }
 
+    private int getLightningBoltImageId(char player, char side) {
+        // Determine the correct lightning bolt image based on player and side
+        if (player == 'a' && side == 'r') {
+            return R.drawable.lightning_bolt_bottom_right;
+        } else if (player == 'a' && side == 'l') {
+            return R.drawable.lightning_bolt_bottom_left;
+        } else if (player == 'b' && side == 'r') {
+            return R.drawable.lightning_bolt_top_right;
+        } else { // player == 'b' && side == 'l'
+            return R.drawable.lightning_bolt_top_left;
+        }
+    }
 
+    
     // cancel method of timer class
     private void block(char player, char side)
     {

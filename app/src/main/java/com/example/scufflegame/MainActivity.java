@@ -513,6 +513,7 @@ public class MainActivity extends Activity implements OnClickListener {
         new AlertDialog.Builder(this)
                 .setTitle("Game Over!")
                 .setMessage(winner + " wins! Do you want to play again?")
+                .setCancelable(false)
                 .setPositiveButton("Yes", (dialog, which) -> resetGame())
                 .setNegativeButton("No", (dialog, which) -> finish())
                 .show();

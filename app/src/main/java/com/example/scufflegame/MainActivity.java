@@ -16,6 +16,7 @@ import java.util.TimerTask;
 public class MainActivity extends Activity implements OnClickListener {
 
     private ImageView imageView;
+    private ImageView playerALives, playerBLives;
     private boolean aHit;
     private boolean bHit;
 
@@ -56,6 +57,15 @@ public class MainActivity extends Activity implements OnClickListener {
         BattackL.setOnClickListener(this);
         BblockR.setOnClickListener(this);
         BblockL.setOnClickListener(this);
+
+        playerALives = findViewById(R.id.playerALives);
+        playerALives.setImageResource(R.drawable.three_lives);
+
+        playerBLives = findViewById(R.id.playerBLives);
+        playerBLives.setImageResource(R.drawable.three_lives);
+
+        updateLivesImage('a');
+        updateLivesImage('b');
     }
 
 
@@ -199,6 +209,7 @@ public class MainActivity extends Activity implements OnClickListener {
         //return begin;
     }
 
+    //adding lightning bolt indicator
     private int getLightningBoltImageId(char player, char side) {
         // Determine the correct lightning bolt image based on player and side
         if (player == 'a' && side == 'r') {
@@ -212,6 +223,30 @@ public class MainActivity extends Activity implements OnClickListener {
         }
     }
 
+
+    //updating the lives tracker
+    private void updateLivesImage(char player) {
+        runOnUiThread(() -> {
+            ImageView livesImageView = (player == 'a') ? playerALives : playerBLives;
+            int health = (player == 'a') ? healthA : healthB;
+
+            switch (health) {
+                case 2:
+                    livesImageView.setImageResource(R.drawable.two_lives);
+                    break;
+                case 1:
+                    livesImageView.setImageResource(R.drawable.one_life);
+                    break;
+                case 0:
+                    // Handle game over scenario here
+                    // livesImageView.setImageResource(R.drawable.no_lives);
+                    break;
+                default:
+                    livesImageView.setImageResource(R.drawable.three_lives);
+            }
+        });
+    }
+    
     
     // cancel method of timer class
     private void block(char player, char side)

@@ -320,8 +320,23 @@ public class MainActivity extends Activity implements OnClickListener {
 
             punch_sound.start();
 
+
+            if ((this.player == 'a' && !BL) || (this.player == 'b' && !AL) ){
+
+                if(this.player == 'a') {
+                    healthB = Math.max(0, healthB - 1);
+                    updateLivesImage('b');
+                    checkGameOver();
+
+                } else {
+                    healthA = Math.max(0, healthA - 1);
+                    updateLivesImage('a');
+                    checkGameOver();
+
+                }
+            
             if (this.player == 'a') {
-                healthB--;
+               
                 if (this.side == 'r') {
                     AR = false;
                     //setting bottom right attack character image
@@ -332,7 +347,7 @@ public class MainActivity extends Activity implements OnClickListener {
                     imageView.setImageResource(R.drawable.bottom_left);
                 }
             } else {
-                healthA--;
+               
                 if (this.side == 'r') {
                     BR = false;
                     //setting top left attack character image
@@ -341,6 +356,7 @@ public class MainActivity extends Activity implements OnClickListener {
                     BL = false;
                     //setting top right attack character image
                     imageView.setImageResource(R.drawable.top_right);
+                    }
                 }
             }
 

@@ -360,6 +360,37 @@ public class MainActivity extends Activity implements OnClickListener {
         }
 
 
+    // checks if the game is over
+    private void checkGameOver() {
+        if (healthA == 0 || healthB == 0) {
+            String winner = (healthA == 0) ? "Player B" : "Player A";
+            showGameOverDialog(winner);
+        }
+    }
+
+    // show game over dialogue
+    private void showGameOverDialog(String winner) {
+
+        new AlertDialog.Builder(this)
+                .setTitle("Game Over!")
+                .setMessage(winner + " wins! Do you want to play again?")
+                .setPositiveButton("Yes", (dialog, which) -> resetGame())
+                .setNegativeButton("No", (dialog, which) -> finish())
+                .show();
+
+    }
+
+
+    //resets game back to the start
+    private void resetGame() {
+        healthA = 3;
+        healthB = 3;
+        updateLivesImage('a');
+        updateLivesImage('b');
+        imageView.setImageResource(R.drawable.normal);
+        // Reset any other game state as necessary
+    }
+
 
     }
 

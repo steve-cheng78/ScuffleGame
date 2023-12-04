@@ -324,13 +324,23 @@ public class MainActivity extends Activity implements OnClickListener {
             if ((this.player == 'a' && !BL) || (this.player == 'b' && !AL) ){
 
                 if(this.player == 'a') {
-                    healthB = Math.max(0, healthB - 1);
-                    updateLivesImage('b');
+                    // Decrement health only if it's more than 0
+                    if (healthB > 0) {
+                        Log.d("ScuffleGame", "Before attack, healthB: " + healthB);
+                        healthB--;
+                        updateLivesImage('b');
+                        Log.d("ScuffleGame", "After attack, healthB: " + healthB);
+                    }
                     checkGameOver();
 
                 } else {
-                    healthA = Math.max(0, healthA - 1);
-                    updateLivesImage('a');
+                    
+                    if (healthA > 0) {
+                        Log.d("ScuffleGame", "Before attack, healthA: " + healthA);
+                        healthA--;
+                        Log.d("ScuffleGame", "After attack, healthA: " + healthA);
+                        updateLivesImage('a');
+                    }
                     checkGameOver();
 
                 }

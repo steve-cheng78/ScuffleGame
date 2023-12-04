@@ -84,8 +84,6 @@ public class MainActivity extends Activity implements OnClickListener {
     stateChange stateChangeBR = new stateChange('b','r');
     stateChange stateChangeAL = new stateChange('a','l');
     stateChange stateChangeBL = new stateChange('b','l');
-    punchAnimation punchR;
-    punchAnimation punchL;
 
     punchAnimation punchAR = new punchAnimation('a','r');
     punchAnimation punchAL = new punchAnimation('a','l');
@@ -179,7 +177,7 @@ public class MainActivity extends Activity implements OnClickListener {
             if (player == 'a') {
                 if (feintingBR) {
                     handlerR.removeCallbacks(punchBR);
-                    handlerR.postDelayed(punchAR, 400);
+                    handlerR.postDelayed(punchAR, 500);
                     interruptAR = true;
                 } else {
                     if (AR == true) {
@@ -193,14 +191,14 @@ public class MainActivity extends Activity implements OnClickListener {
                     } else {
                         AR = true;
                     }
-                    handlerR.postDelayed(punchAR, 400);
+                    handlerR.postDelayed(punchAR, 500);
                 }
-                handlerNormA.postDelayed(normPos, 600);
+                handlerNormA.postDelayed(normPos, 700);
 
             } else {
                 if (feintingAR) {
                     handlerR.removeCallbacks(punchAR);
-                    handlerR.postDelayed(punchBR,400);
+                    handlerR.postDelayed(punchBR,500);
                     interruptBR = true;
                 } else {
                     if (BR == true) {
@@ -213,9 +211,9 @@ public class MainActivity extends Activity implements OnClickListener {
                     } else {
                         BR = true;
                     }
-                    handlerR.postDelayed(punchBR, 400);
+                    handlerR.postDelayed(punchBR, 500);
                 }
-                handlerNormB.postDelayed(normPos, 600);
+                handlerNormB.postDelayed(normPos, 700);
 
             }
 
@@ -224,7 +222,7 @@ public class MainActivity extends Activity implements OnClickListener {
             if (player == 'a') {
                 if (feintingBL) {
                     handlerL.removeCallbacks(punchBL);
-                    handlerL.postDelayed(punchAL,400);
+                    handlerL.postDelayed(punchAL,500);
                     interruptAL = true;
                 }
                 else{
@@ -238,14 +236,14 @@ public class MainActivity extends Activity implements OnClickListener {
                     } else {
                         AL = true;
                     }
-                    handlerL.postDelayed(punchAL, 400);
+                    handlerL.postDelayed(punchAL, 500);
                 }
-                handlerNormA.postDelayed(normPos, 600);
+                handlerNormA.postDelayed(normPos, 700);
 
             } else {
                 if (feintingAL) {
                     handlerL.removeCallbacks(punchAL);
-                    handlerL.postDelayed(punchBL,400);
+                    handlerL.postDelayed(punchBL,500);
                     interruptBL = true;
                 } else {
                     if (BL == true) {
@@ -259,9 +257,9 @@ public class MainActivity extends Activity implements OnClickListener {
                         BL = true;
                     }
 
-                    handlerL.postDelayed(punchBL, 400);
+                    handlerL.postDelayed(punchBL, 500);
                 }
-                handlerNormB.postDelayed(normPos, 600);
+                handlerNormB.postDelayed(normPos, 700);
             }
 
         }

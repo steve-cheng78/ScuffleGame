@@ -237,10 +237,6 @@ public class MainActivity extends Activity implements OnClickListener {
                 case 1:
                     livesImageView.setImageResource(R.drawable.one_life);
                     break;
-                case 0:
-                    // Handle game over scenario here
-                    // livesImageView.setImageResource(R.drawable.no_lives);
-                    break;
                 default:
                     livesImageView.setImageResource(R.drawable.three_lives);
             }

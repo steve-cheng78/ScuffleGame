@@ -57,6 +57,7 @@ public class MainActivity extends Activity implements OnClickListener {
         BblockR.setOnClickListener(this);
         BblockL.setOnClickListener(this);
 
+
         playerALives = findViewById(R.id.playerALives);
         playerALives.setImageResource(R.drawable.three_lives);
 
@@ -68,9 +69,9 @@ public class MainActivity extends Activity implements OnClickListener {
     }
 
 
-    //Timers for either side that activate once an attack button on corresponding side is pressed.
-    //After some time, the timer will activate the scheduled TimerTask, which indicates that damage
-    // has been dealt. Thus, Timers must be canceled in block function.
+    //Handlers for either side that activate once an attack button on corresponding side is pressed.
+    //After some time, the handler will activate the scheduled runnable, which indicates that damage
+    // has been dealt. Thus, runnables must be canceled in block function.
     // A "flaw" that I want to keep and turn into a feature is that players can spam their own
     // attack button to do a "feint". This resets the attack timer and the opponent needs to adjust
     // to that.
@@ -102,10 +103,14 @@ public class MainActivity extends Activity implements OnClickListener {
      boolean AL = false;
      boolean BR = false;
      boolean BL = false;
+
+     //Indicates when a character is feinting
     boolean feintingAR = false;
     boolean feintingAL = false;
     boolean feintingBR = false;
     boolean feintingBL = false;
+
+    //Indicates when a character has interrupted the opponent's feint.
     boolean interruptAR = false;
     boolean interruptAL = false;
     boolean interruptBR = false;
@@ -119,9 +124,10 @@ public class MainActivity extends Activity implements OnClickListener {
     {
 
         //By using if and else if, only attack or block button can be pushed at one time for either
-        //player, either side.
+        //player, either side (attack and block pairs in the four corners).
         //When BR is false, a player can begin an attack because an opposing attack on that side has
-        // not yet been initiated.
+        //not yet been initiated. A player can also attack when the opponent is feinting. Players
+        //cannot begin a new attack when the opponent has interrupted their feinting.
         if (v.getId() == R.id.AattackR && (!BR || feintingBR) && !interruptBR) {
             attack('a','r');
         } else if (v.getId() == R.id.AblockR){
@@ -150,36 +156,29 @@ public class MainActivity extends Activity implements OnClickListener {
 
     private void attack(char player, char side)
     {
-        //Activate the correct "active attack" indicator
-
-
-        // Determine which handler to use based on the side
         Handler currentHandler = (side == 'r') ? handlerR : handlerL;
-
         currentHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-               
                 // Set the lightning bolt image based on the player and side
                 int lightningBoltImageId = getLightningBoltImageId(player, side);
                 imageView.setImageResource(lightningBoltImageId);
 
-                // Schedule the punch animation to occur after the lightning bolt
-                //Runnable punch = new punchAnimation(player, side);
-
-                //currentHandler.postDelayed(punch, 400); // Show the bolt for 200 ms before punch
             }
         }, 0); // Immediate execution for lightning bolt
         
 
+        //Determine which animation to play based on player and side of button clicked
         if (side == 'r') {
 
             if (player == 'a') {
+                //If opponent is feinting on same side, replace their attack with your own
                 if (feintingBR) {
                     handlerR.removeCallbacks(punchBR);
                     handlerR.postDelayed(punchAR, 500);
                     interruptAR = true;
                 } else {
+                    //If already attacking, player goes into feinting state if atk clicked again
                     if (AR == true) {
                         //"Feint": cancel previous punch, cancel block for previous punch if any
                         handlerR.removeCallbacks(punchAR);
@@ -188,6 +187,8 @@ public class MainActivity extends Activity implements OnClickListener {
                         attackState.removeCallbacks(stateChangeAR);
                         feintingAR = true;
                         attackState.postDelayed(stateChangeAR,200);
+
+                    //Else, player is simply initiating an attack.
                     } else {
                         AR = true;
                     }
@@ -195,6 +196,7 @@ public class MainActivity extends Activity implements OnClickListener {
                 }
                 handlerNormA.postDelayed(normPos, 700);
 
+            //Repeat above cases for both players and sides
             } else {
                 if (feintingAR) {
                     handlerR.removeCallbacks(punchAR);
@@ -281,7 +283,7 @@ public class MainActivity extends Activity implements OnClickListener {
     }
 
 
-    //updating the lives tracker
+    //updating the lives tracker, based on how much health player currently has
     private void updateLivesImage(char player) {
         runOnUiThread(() -> {
             ImageView livesImageView = (player == 'a') ? playerALives : playerBLives;
@@ -359,6 +361,7 @@ public class MainActivity extends Activity implements OnClickListener {
     {
         char player;
         char side;
+        //Constructor for block animation, based on player and side
         blockAnimation (char player, char side) {
             this.player = player;
             this.side = side;
@@ -366,7 +369,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
         @Override
         public void run() {
-            //punch animation code
+            //block animation code
             if (this.player == 'b') {
 
                 if (this.side == 'r') {
@@ -399,6 +402,7 @@ public class MainActivity extends Activity implements OnClickListener {
     {
         char player;
         char side;
+        //Constructor for punchAnimation based on player and side
         punchAnimation (char player, char side) {
             this.player = player;
             this.side = side;
@@ -407,7 +411,7 @@ public class MainActivity extends Activity implements OnClickListener {
         @Override
         public void run() {
             //punch animation code
-
+            //Punch sound effect
             punch_sound.start();
 
 
@@ -470,6 +474,7 @@ public class MainActivity extends Activity implements OnClickListener {
     }
 
 
+    //State change Runnable implementation for schedule resetting of feinting variables.
     class stateChange implements Runnable {
         char player;
         char side;
@@ -481,7 +486,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
         @Override
         public void run() {
-            //punch animation code
+            //Reset feinting variable based on player and side
             if (this.player == 'a') {
                 if (this.side == 'r') {
                     feintingAR = false;

@@ -415,9 +415,9 @@ public class MainActivity extends Activity implements OnClickListener {
             punch_sound.start();
 
 
-            if ((this.player == 'a' && !BL) || (this.player == 'b' && !AL) ){
+            if ((this.player == 'a' && !BL) || (this.player == 'b' && !AL) ) {
 
-                if(this.player == 'a') {
+                if (this.player == 'a') {
                     // Decrement health only if it's more than 0
                     if (healthB > 0) {
                         Log.d("ScuffleGame", "Before attack, healthB: " + healthB);
@@ -428,7 +428,7 @@ public class MainActivity extends Activity implements OnClickListener {
                     checkGameOver();
 
                 } else {
-                    
+
                     if (healthA > 0) {
                         Log.d("ScuffleGame", "Before attack, healthA: " + healthA);
                         healthA--;
@@ -438,7 +438,8 @@ public class MainActivity extends Activity implements OnClickListener {
                     checkGameOver();
 
                 }
-            
+
+            }
             if (this.player == 'a') {
                
                 if (this.side == 'r') {
@@ -464,9 +465,9 @@ public class MainActivity extends Activity implements OnClickListener {
                     interruptBL = false;
                     //setting top right attack character image
                     imageView.setImageResource(R.drawable.top_right);
-                    }
                 }
             }
+
 
         }
 
